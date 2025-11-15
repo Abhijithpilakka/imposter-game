@@ -35,8 +35,7 @@ export default function HomeScreen({ onRoomCreated, onRoomJoined }) {
           }
         },
         gameState: 'lobby',
-        maxRounds: 3,
-        currentRound: 0,
+        category: 'general',
         createdAt: Date.now()
       });
 
@@ -94,7 +93,7 @@ export default function HomeScreen({ onRoomCreated, onRoomJoined }) {
   };
 
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center p-4">
+    <div className="min-h-screen bg-white flex flex-col items-center justify-center p-4">
       <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-md w-full transform hover:scale-105 transition-transform">
         <div className="text-center mb-8">
           <div className="inline-block p-4 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full mb-4">
@@ -159,6 +158,21 @@ export default function HomeScreen({ onRoomCreated, onRoomJoined }) {
             {loading ? 'Joining...' : 'Join Room'}
           </button>
         </div>
+      </div>
+
+      {/* Signature */}
+      <div className="mt-8 text-center">
+        <p className="text-black/10 text-sm">
+          Made with ❤️ by{' '}
+          <a 
+            href="https://linkedin.com/in/abhijithpilakka/" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="hover:text-black/50 transition-colors"
+          >
+            Abhijith Pilakka
+          </a>
+        </p>
       </div>
     </div>
   );
