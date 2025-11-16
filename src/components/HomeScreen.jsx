@@ -164,13 +164,13 @@ export default function HomeScreen({ onRoomCreated, onRoomJoined }) {
 
       {/* Signature */}
       <div className="mt-8 text-center">
-        <p className="text-white/30 text-sm">
-          Made by{' '}
+        <p className="text-black/20 text-sm">
+          Made with love by{' '}
           <a 
-            href="https://github.com/abhijithpilakka" 
+            href="https://linkedin.com/in/abhijithpilakka" 
             target="_blank" 
             rel="noopener noreferrer"
-            className="hover:text-white/50 transition-colors"
+            className="hover:text-black/25 transition-colors"
           >
             Abhijith Pilakka
           </a>
