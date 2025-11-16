@@ -31,7 +31,8 @@ export default function HomeScreen({ onRoomCreated, onRoomJoined }) {
           [playerId]: {
             name: playerName,
             id: playerId,
-            joined: Date.now()
+            joined: Date.now(),
+            totalPoints: 0
           }
         },
         gameState: 'lobby',
@@ -80,7 +81,8 @@ export default function HomeScreen({ onRoomCreated, onRoomJoined }) {
       await set(ref(database, `rooms/${roomCode.toUpperCase()}/players/${playerId}`), {
         name: playerName,
         id: playerId,
-        joined: Date.now()
+        joined: Date.now(),
+        totalPoints: 0
       });
 
       onRoomJoined(roomCode.toUpperCase(), playerName, playerId);
@@ -162,13 +164,13 @@ export default function HomeScreen({ onRoomCreated, onRoomJoined }) {
 
       {/* Signature */}
       <div className="mt-8 text-center">
-        <p className="text-black/10 text-sm">
-          Made with ❤️ by{' '}
+        <p className="text-white/30 text-sm">
+          Made by{' '}
           <a 
-            href="https://linkedin.com/in/abhijithpilakka/" 
+            href="https://github.com/abhijithpilakka" 
             target="_blank" 
             rel="noopener noreferrer"
-            className="hover:text-black/50 transition-colors"
+            className="hover:text-white/50 transition-colors"
           >
             Abhijith Pilakka
           </a>

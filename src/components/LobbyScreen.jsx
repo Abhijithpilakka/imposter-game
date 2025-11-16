@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Users, Crown } from 'lucide-react';
+import { Users, Crown, Trophy } from 'lucide-react';
 import { ref, onValue, update } from 'firebase/database';
 import { database } from '../utils/firebase';
 import { assignWords } from '../utils/gamelogic';
@@ -19,9 +19,10 @@ export default function LobbyScreen({ roomCode, playerName, playerId }) {
         setRoomData(data);
         
         const playersList = data.players ? Object.values(data.players) : [];
+        // Sort by total points
+        playersList.sort((a, b) => (b.totalPoints || 0) - (a.totalPoints || 0));
         setPlayers(playersList);
         
-        // Sync category from Firebase
         if (data.category) {
           setSelectedCategory(data.category);
         }
@@ -63,9 +64,10 @@ export default function LobbyScreen({ roomCode, playerName, playerId }) {
   };
 
   const isHost = roomData?.hostId === playerId;
+  const hasPlayedBefore = players.some(p => (p.totalPoints || 0) > 0);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-600 via-purple-500 to-pink-500 p-4">
+    <div className="min-h-screen bg-white p-4">
       <div className="max-w-2xl mx-auto">
         <div className="bg-white rounded-3xl shadow-2xl p-8">
           <div className="text-center mb-6">
@@ -80,17 +82,26 @@ export default function LobbyScreen({ roomCode, playerName, playerId }) {
             <h3 className="text-xl font-semibold text-gray-700 mb-4 flex items-center gap-2">
               <Users className="w-5 h-5" />
               Players ({players.length})
+              {hasPlayedBefore && <Trophy className="w-5 h-5 text-yellow-500" />}
             </h3>
             <div className="space-y-2">
               {players.map((player, index) => (
                 <div key={player.id} className="flex items-center gap-3 bg-gradient-to-r from-purple-50 to-pink-50 p-4 rounded-xl">
                   <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-bold ${
+                    index === 0 && hasPlayedBefore ? 'bg-yellow-500' :
                     index % 3 === 0 ? 'bg-purple-500' : index % 3 === 1 ? 'bg-pink-500' : 'bg-blue-500'
                   }`}>
-                    {player.name[0].toUpperCase()}
+                    {index === 0 && hasPlayedBefore ? '👑' : player.name[0].toUpperCase()}
                   </div>
-                  <span className="font-semibold text-gray-700">{player.name}</span>
-                  {player.id === roomData?.hostId && <Crown className="w-5 h-5 text-yellow-500 ml-auto" />}
+                  <div className="flex-1">
+                    <span className="font-semibold text-gray-700">{player.name}</span>
+                    {hasPlayedBefore && (
+                      <span className="ml-2 text-sm text-purple-600 font-bold">
+                        {player.totalPoints || 0} pts
+                      </span>
+                    )}
+                  </div>
+                  {player.id === roomData?.hostId && <Crown className="w-5 h-5 text-yellow-500" />}
                 </div>
               ))}
             </div>
